@@ -7,14 +7,6 @@ Celo L2 Docs
 
 https://docs.celo.org/
 
-Celo 2025 Outlook Slides
-
-https://docs.google.com/presentation/d/1GUduYA5u-JaZ8lwJ-DlJZZYC_OKMeGWL/edit#slide=id.p8
-
-### Link To Access Feedback form
-
-https://docs.google.com/forms/d/e/1FAIpQLSfXogc7lHEgz9ajFhPEVyY7y33_esNzHgR3E8bH4LVz4Yconw/viewform
-
 <details><summary><div align="">INTRODUCTION</div></summary><br>
   
 ### 🌐 What Is Web3?
