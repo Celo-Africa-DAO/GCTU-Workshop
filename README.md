@@ -1,5 +1,3 @@
-# GCTU-Workshop
-
 <div align="center">
   <img src="https://github.com/eben619/Celo_Africa_Dao-Ghana_University_Tour/blob/main/celo_isotype.svg" alt="Celo Logo" width="150px">
 <h1 >CELO AFRICA DAO</h1>
@@ -298,6 +296,62 @@ This is a global variable in Solidity that refers to the address that is current
 <b>10 ** decimals()</b> calculates 10 to the power of the number of decimals, which in the case of 18 decimals would be 10^18.
 
 <b>10000 * 10 ** decimals()</b> then multiplies 10,000 by 10^18 to get the total number of smallest units (often called "wei" in the context of ERC20 tokens) for 10,000 tokens.
+
+Simple Escrow Smart Contract
+
+```
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.0;
+
+contract Escrow {
+    address public buyer;
+    address public seller;
+    address public escrowAgent;
+    uint public amount;
+    bool public fundsDeposited;
+    bool public transactionComplete;
+
+    constructor(address _buyer, address _seller) {
+        buyer = _buyer;
+        seller = _seller;
+        escrowAgent = msg.sender; // deployer is the escrow agent
+    }
+
+    modifier onlyEscrowAgent() {
+        require(msg.sender == escrowAgent, "Only escrow agent allowed");
+        _;
+    }
+
+    modifier onlyBuyer() {
+        require(msg.sender == buyer, "Only buyer allowed");
+        _;
+    }
+
+    function deposit() external payable onlyBuyer {
+        require(!fundsDeposited, "Funds already deposited");
+        require(msg.value > 0, "Must send some ETH");
+        amount = msg.value;
+        fundsDeposited = true;
+    }
+
+    function releaseFundsToSeller() external onlyEscrowAgent {
+        require(fundsDeposited, "No funds deposited");
+        require(!transactionComplete, "Transaction already complete");
+
+        transactionComplete = true;
+        payable(seller).transfer(amount);
+    }
+
+    function refundBuyer() external onlyEscrowAgent {
+        require(fundsDeposited, "No funds to refund");
+        require(!transactionComplete, "Transaction already complete");
+
+        transactionComplete = true;
+        payable(buyer).transfer(amount);
+    }
+}
+
+```
 
 ### 🔧 Compile the Contract
 With the contract above as the active tab in the Editor, compile the contract.
